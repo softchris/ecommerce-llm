@@ -1,0 +1,133 @@
+<!-- create e-commerce site, sells star wars toys -->
+<html>
+<head>
+    <title>Star Wars Toys</title>
+
+    <!-- add bootstrap -->
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+    <style>
+        .content {
+            margin-top: 20px;
+            background-color: lightgray;
+           
+            /* height 100%  */
+            height: auto;
+            min-height: 100%;
+        }
+
+        .product {
+            margin-bottom: 20px;
+            padding: 10px;
+            background-color: white;
+        }
+
+    </style>
+</head>
+
+<body>
+
+
+    <!-- q: tell me about boostrap components I can use as a list?  -->
+    <div id="app">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <ul class="nav nav-pills">
+    
+                        <li role="presentation" class="active">
+                            <router-link to="/">Home</router-link>
+                        </li>
+                        <li role="presentation">
+                            <router-link to="/products">Products</router-link>
+                        </li>
+                        <li role="presentation">
+                            <router-link to="/cart">Cart</router-link>
+                        </li>
+                        <li role="presentation">
+                            <router-link to="/login">Login</router-link>
+                        </li>
+                        
+                    </ul>
+                </div>
+            </div>
+            <div class="row">
+                <!-- card -->
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <h1>Star Wars Toys</h1>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <Cart :small="true" :cart="cart"></Cart>
+                 </div>
+                <!-- add app element -->
+                <div class="content col-md-12">
+                    <router-view></router-view>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- add Vue 3 -->
+    <script src="https://unpkg.com/vue@3"></script>
+    <script src="https://unpkg.com/vue-router@4"></script>
+    <script type="module">
+        
+
+        import bus from './core/events.js'
+        ;
+        import Cart from './components/cart.js'
+        import cart from './model/cart.js'    
+        
+        import CartRoute from './routes/Cart.js'
+        import Login from './routes/Login.js'
+        import Home from './routes/Home.js'
+        import Products from './routes/Products.js'
+        
+        // define routes with VueRouter
+        const routes = [
+            { path: '/products', component: Products },
+            { path: '/cart', component: CartRoute },
+            { path: '/login', component: Login },
+            { path: '/', component: Home },
+        ]
+
+        // add routes to VueRouter
+        const router = VueRouter.createRouter({
+            // 4. Provide the history implementation to use. We are using the hash history for simplicity here.
+            history: VueRouter.createWebHashHistory(),
+            routes, // short for `routes: routes`
+        })
+
+
+        // create a new Vue instance and mount it to our div element above with the id of app
+        const app = Vue.createApp({
+            el: '#app',
+            setup() {
+                
+                // list of star wars products
+                bus.on('add-to-cart', (product) => {
+                    console.log('add to cart event received');
+                    console.log(product);
+                    cart.value.push(product.data);
+                });
+
+                return { message:"Hello", cart: cart };
+            },
+            components: {
+                Cart
+            }
+        })
+
+        app.use(router)
+
+        app.mount('#app')
+
+    </script>
+
+
+</body>
+</html>

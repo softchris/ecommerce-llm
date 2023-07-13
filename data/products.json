@@ -1,0 +1,12 @@
+{
+    "products": [
+        { "id": 1, "name": "Millennium Falcon", "price": 599.99 },
+        { "id": 2, "name": "X-Wing", "price": 299.99 },
+        { "id": 3, "name": "TIE Fighter", "price": 229.99 },
+        { "id": 4, "name": "Lightsaber", "price": 99.99 },
+        { "id": 5, "name": "DL-44 Blaster", "price": 499.99 },
+        { "id": 6, "name": "Stormtrooper Blaster", "price": 349.99 },
+        { "id": 7, "name": "Boba Fett Helmet", "price": 599.99 },
+        { "id": 8, "name": "Sand Crawler", "price": 799.99 }    
+    ]
+}
